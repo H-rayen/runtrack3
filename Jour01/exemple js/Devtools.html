@@ -1,0 +1,335 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Guide DevTools Firefox pour le développement JavaScript</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2e4053;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .nav-links {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .nav-links ul {
+            margin: 0;
+        }
+        .tip {
+            background: #e8f4f8;
+            border-left: 4px solid #007acc;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guide complet des outils de développement Firefox (DevTools) pour JavaScript</h1>
+    
+    <p>Les Firefox DevTools sont une suite d'outils intégrés dans le navigateur Firefox, conçus pour aider les développeurs web à examiner, éditer et déboguer le code HTML, CSS et JavaScript de leurs pages web. Ce guide couvre en détail les différents panneaux des DevTools utiles pour le développement JavaScript, avec leurs fonctionnalités principales et des cas d'usage concrets.</p>
+    
+    <p>Pour ouvrir les DevTools dans Firefox, utilisez le menu <em>Outils &gt; Développeur Web &gt; Outils de développement Web</em> ou le raccourci <code>F12</code> (<code>Ctrl+Maj+I</code> sous Windows/Linux, <code>Cmd+Opt+I</code> sur macOS).</p>
+    
+    <div class="nav-links">
+        <p><strong>Navigation :</strong></p>
+        <ul>
+            <li><a href="#inspector">Inspector (Inspection du DOM et CSS)</a></li>
+            <li><a href="#console">Console Web (JavaScript)</a></li>
+            <li><a href="#debugger">Débogueur JavaScript</a></li>
+            <li><a href="#network">Moniteur Réseau</a></li>
+            <li><a href="#performance">Outils de Performance</a></li>
+            <li><a href="#storage">Inspecteur de Stockage</a></li>
+            <li><a href="#responsive">Mode Responsive &amp; Simulation</a></li>
+        </ul>
+    </div>
+
+    <h2 id="inspector">Inspector (Inspection du DOM et CSS)</h2>
+    
+    <p>L'outil <strong>Inspector</strong> permet d'examiner la structure HTML du document et les styles CSS de chaque élément, tels qu'ils sont rendus à l'exécution. C'est souvent le panneau par défaut à l'ouverture des DevTools.</p>
+    
+    <p>L'Inspector affiche le DOM (Document Object Model) en temps réel, ce qui signifie que si votre code JavaScript modifie le HTML (en ajoutant, supprimant ou modifiant des éléments), vous verrez ces changements immédiatement dans la vue du DOM. Vous pouvez directement modifier le code HTML ou CSS depuis ce panneau et voir les résultats en direct sur la page, sans la recharger.</p>
+
+    <h3>Structure de l'Inspector</h3>
+    <p>Le panneau Inspector est divisé en deux parties principales :</p>
+    <ul>
+        <li><strong>À gauche</strong> : la vue arborescente du DOM (structure des éléments HTML imbriqués)</li>
+        <li><strong>À droite</strong> : la vue des styles CSS de l'élément sélectionné</li>
+    </ul>
+
+    <p>En cliquant sur un élément dans le code HTML (ou en utilisant l'outil de sélection d'élément dans la page), l'Inspector met en surbrillance cet élément sur la page et affiche ses styles CSS appliqués. La section des styles (CSS Rules) liste toutes les règles CSS qui s'appliquent à l'élément, par ordre de spécificité.</p>
+
+    <h3>Fonctionnalités utiles</h3>
+    <ul>
+        <li><strong>Édition en temps réel</strong> : Vous pouvez cocher/décocher chaque déclaration CSS pour voir l'effet de sa suppression, ou modifier les valeurs en cliquant dessus</li>
+        <li><strong>Box Model</strong> : Un panneau <em>Layout</em> affiche le modèle de boîte de l'élément sélectionné (marges, bordures, padding, dimensions)</li>
+        <li><strong>Event Listeners</strong> : L'onglet correspondant liste les événements JavaScript attachés à l'élément</li>
+        <li><strong>Properties</strong> : Affiche toutes les propriétés JavaScript de l'objet DOM sélectionné</li>
+    </ul>
+
+    <div class="tip">
+        <strong>Cas d'usage concret :</strong> Si votre code JavaScript ajoute dynamiquement un élément HTML mais qu'il n'apparaît pas, l'Inspector vous permet de vérifier s'il a bien été inséré dans le DOM. S'il est présent mais invisible, vous pouvez examiner ses styles pour identifier le problème (par exemple une règle <code>display: none;</code>).
+    </div>
+
+    <h2 id="console">Console Web (Console JavaScript)</h2>
+    
+    <p>La <strong>Console Web</strong> de Firefox est un outil essentiel pour le débogage JavaScript. Elle affiche tous les messages <em>log</em> produits par la page web (via <code>console.log</code>, <code>console.error</code>, etc.), ainsi que les erreurs JavaScript, les avertissements de sécurité ou de CSS.</p>
+
+    <p>Plus important encore, elle vous permet d'interagir avec la page en exécutant directement du code JavaScript dans le contexte de la page chargée. En tapant une commande JS à l'invite <code>&gt;</code> et en pressant Entrée, la console l'exécute sur la page et affiche le résultat.</p>
+
+    <h3>Fonctionnalités principales</h3>
+    <ul>
+        <li><strong>Messages en temps réel</strong> : Affichage des logs, erreurs, avertissements avec filtrage par type</li>
+        <li><strong>Exécution interactive</strong> : Test de code JavaScript en direct</li>
+        <li><strong>Inspection d'objets</strong> : Exploration des propriétés d'objets complexes</li>
+        <li><strong>Variable magique $0</strong> : Référence à l'élément sélectionné dans l'Inspector</li>
+        <li><strong>Auto-complétion</strong> : Aide à la saisie du code</li>
+    </ul>
+
+    <h3>Exemples d'utilisation</h3>
+    <pre><code>// Modifier le contenu d'un élément
+document.querySelector('h1').textContent = 'Titre modifié via la console';
+
+// Appeler une fonction définie sur la page
+addition(2, 3); // → Retourne 5
+
+// Définir une nouvelle variable globale
+var debugMode = true;
+
+// Inspecter l'élément sélectionné
+$0.style.backgroundColor = 'red';</code></pre>
+
+    <div class="tip">
+        <strong>API console avancées :</strong> Utilisez <code>console.table()</code> pour afficher des tableaux d'objets de manière lisible, ou <code>console.time()/console.timeEnd()</code> pour mesurer les performances.
+    </div>
+
+    <h2 id="debugger">Débogueur JavaScript</h2>
+    
+    <p>Le <strong>Débogueur JavaScript</strong> est l'outil incontournable pour diagnostiquer finement les problèmes dans votre code. Il vous permet de mettre des points d'arrêt (<em>breakpoints</em>) dans votre code et d'examiner l'état des variables et la pile d'appels.</p>
+
+    <h3>Interface du débogueur</h3>
+    <p>Le panneau Debugger comprend :</p>
+    <ul>
+        <li><strong>À gauche</strong> : Liste des fichiers JavaScript chargés</li>
+        <li><strong>Au centre</strong> : Code source du fichier courant</li>
+        <li><strong>À droite</strong> : Informations de debugging (pile d'appels, variables, watch expressions)</li>
+    </ul>
+
+    <h3>Utilisation des breakpoints</h3>
+    <p>Pour utiliser le débogueur :</p>
+    <ol>
+        <li>Sélectionnez le fichier JS dans la liste de gauche</li>
+        <li>Cliquez sur le numéro de ligne pour placer un breakpoint (point bleu)</li>
+        <li>Rechargez la page ou reproduisez l'action qui exécute ce code</li>
+        <li>L'exécution se suspend au breakpoint</li>
+    </ol>
+
+    <h3>Commandes de pas-à-pas</h3>
+    <ul>
+        <li><strong>Step Over (F10)</strong> : Avancer à la ligne suivante</li>
+        <li><strong>Step Into (F11)</strong> : Entrer dans la fonction appelée</li>
+        <li><strong>Step Out</strong> : Sortir de la fonction courante</li>
+        <li><strong>Resume</strong> : Continuer l'exécution</li>
+    </ul>
+
+    <div class="tip">
+        <strong>Breakpoints conditionnels :</strong> Clic droit sur un breakpoint pour définir une condition. Le code ne s'arrêtera que si la condition est vraie.
+    </div>
+
+    <h3>Inspection des variables</h3>
+    <p>Quand le code est en pause, la section <em>Scopes</em> affiche toutes les variables accessibles :</p>
+    <ul>
+        <li>Variables locales de la fonction</li>
+        <li>Variables globales</li>
+        <li>Variables de fermeture (closure)</li>
+    </ul>
+
+    <p>Vous pouvez modifier les valeurs en double-cliquant dessus, ce qui permet de tester différents scénarios sans relancer le programme.</p>
+
+    <div class="tip">
+        <strong>Astuce debugger :</strong> Insérez <code>debugger;</code> directement dans votre code pour créer un breakpoint programmatique qui fonctionnera même dans du code minifié.
+    </div>
+
+    <h2 id="network">Moniteur Réseau</h2>
+    
+    <p>Le panneau <strong>Moniteur Réseau</strong> liste toutes les requêtes réseau effectuées par la page web, qu'il s'agisse des ressources lors du chargement initial ou des requêtes dynamiques (appels API, XHR/fetch).</p>
+
+    <h3>Interface du moniteur</h3>
+    <p>Chaque requête s'affiche sous forme de ligne avec :</p>
+    <ul>
+        <li><strong>URL</strong> : L'adresse appelée</li>
+        <li><strong>Méthode</strong> : GET, POST, PUT, etc.</li>
+        <li><strong>Statut</strong> : Code de réponse HTTP (200, 404, 500...)</li>
+        <li><strong>Type</strong> : document, XHR, script, stylesheet, etc.</li>
+        <li><strong>Taille</strong> : Données téléchargées</li>
+        <li><strong>Temps</strong> : Durée de la requête</li>
+    </ul>
+
+    <h3>Détails des requêtes</h3>
+    <p>En cliquant sur une requête, vous accédez à :</p>
+    <ul>
+        <li><strong>Headers</strong> : En-têtes HTTP de la requête et de la réponse</li>
+        <li><strong>Cookies</strong> : Cookies envoyés et reçus</li>
+        <li><strong>Params</strong> : Paramètres de la requête (GET/POST)</li>
+        <li><strong>Response</strong> : Corps de la réponse (JSON formatté pour les APIs)</li>
+        <li><strong>Timing</strong> : Chronométrage détaillé des phases</li>
+    </ul>
+
+    <h3>Fonctionnalités avancées</h3>
+    <ul>
+        <li><strong>Filtrage</strong> : Par type de requête (XHR, images, etc.) ou par mot-clé</li>
+        <li><strong>Édition et renvoi</strong> : Modifier une requête et la renvoyer</li>
+        <li><strong>Export cURL</strong> : Copier une requête au format cURL</li>
+        <li><strong>Waterfall</strong> : Diagramme en cascade du timing des requêtes</li>
+    </ul>
+
+    <div class="tip">
+        <strong>Débogage API :</strong> Le Moniteur Réseau est essentiel pour diagnostiquer les problèmes d'appels API. Vérifiez que la requête part bien, avec les bons paramètres, et examinez la réponse pour identifier les erreurs.
+    </div>
+
+    <h2 id="performance">Outils de Performance</h2>
+    
+    <p>Le panneau <strong>Performance</strong> analyse les performances globales de votre page web, notamment les performances JavaScript, les délais de rendu et la réactivité de l'interface.</p>
+
+    <h3>Enregistrement d'un profil</h3>
+    <p>Pour utiliser l'outil Performance :</p>
+    <ol>
+        <li>Cliquez sur "Enregistrer"</li>
+        <li>Effectuez l'action à analyser (chargement, interaction)</li>
+        <li>Arrêtez l'enregistrement</li>
+        <li>Analysez le rapport généré</li>
+    </ol>
+
+    <h3>Types de données affichées</h3>
+    <ul>
+        <li><strong>Chronologie (Timeline)</strong> : Activité du CPU dans le temps</li>
+        <li><strong>Flame Chart</strong> : Représentation hiérarchique des appels JavaScript</li>
+        <li><strong>FPS</strong> : Fréquence d'images pour les animations</li>
+        <li><strong>Mémoire</strong> : Consommation mémoire (détection de fuites)</li>
+    </ul>
+
+    <h3>Mesures rapides avec console.time()</h3>
+    <pre><code>console.time('calcul');
+// Code à mesurer
+effectuerCalculLourd();
+console.timeEnd('calcul');</code></pre>
+
+    <div class="tip">
+        <strong>Optimisation :</strong> Le flame chart vous montre quelles fonctions consomment le plus de temps CPU. Les rectangles les plus longs indiquent les goulots d'étranglement à optimiser.
+    </div>
+
+    <h2 id="storage">Inspecteur de Stockage</h2>
+    
+    <p>Le panneau <strong>Storage</strong> permet d'inspecter toutes les données stockées localement par la page web dans le navigateur.</p>
+
+    <h3>Types de stockage</h3>
+    <ul>
+        <li><strong>Cookies</strong> : Cookies HTTP du domaine</li>
+        <li><strong>Local Storage</strong> : Données persistantes localStorage</li>
+        <li><strong>Session Storage</strong> : Données de session sessionStorage</li>
+        <li><strong>IndexedDB</strong> : Bases de données côté client</li>
+        <li><strong>Cache Storage</strong> : Cache des Service Workers</li>
+    </ul>
+
+    <h3>Fonctionnalités</h3>
+    <ul>
+        <li><strong>Visualisation</strong> : Affichage sous forme de tableau</li>
+        <li><strong>Édition</strong> : Modification des valeurs en double-cliquant</li>
+        <li><strong>Suppression</strong> : Effacement d'entrées individuelles</li>
+        <li><strong>Ajout</strong> : Création de nouvelles entrées (clic droit)</li>
+        <li><strong>Nettoyage</strong> : Suppression complète par domaine</li>
+    </ul>
+
+    <div class="tip">
+        <strong>Test de scénarios :</strong> Modifiez manuellement les données de stockage pour tester différents états de votre application (panier vide, utilisateur déconnecté, etc.).
+    </div>
+
+    <h2 id="responsive">Mode Responsive & Simulation</h2>
+    
+    <p>Firefox propose un <strong>Mode Responsive</strong> intégré aux DevTools pour tester votre site sur différents appareils et conditions réseau.</p>
+
+    <h3>Activation du mode</h3>
+    <p>Accès via :</p>
+    <ul>
+        <li>Icône smartphone/tablette dans les DevTools</li>
+        <li>Raccourci <code>Ctrl+Maj+M</code> (Windows/Linux) ou <code>Cmd+Opt+M</code> (macOS)</li>
+    </ul>
+
+    <h3>Fonctionnalités de simulation</h3>
+    <ul>
+        <li><strong>Appareils prédéfinis</strong> : iPhone, iPad, Android, etc.</li>
+        <li><strong>Dimensions personnalisées</strong> : Largeur/hauteur ajustables</li>
+        <li><strong>Orientation</strong> : Portrait/paysage</li>
+        <li><strong>Ratio de pixels (DPR)</strong> : Simulation d'écrans haute densité</li>
+        <li><strong>Événements tactiles</strong> : Simulation du touch au lieu de la souris</li>
+        <li><strong>User-Agent</strong> : Chaîne UA simulée (optionnel)</li>
+    </ul>
+
+    <h3>Network Throttling</h3>
+    <p>Simulation des conditions réseau :</p>
+    <ul>
+        <li><strong>Profils prédéfinis</strong> : 2G, 3G, 4G, ADSL, Wi-Fi</li>
+        <li><strong>Mode Offline</strong> : Test hors-ligne</li>
+        <li><strong>Latence personnalisée</strong> : Délai réseau configurable</li>
+        <li><strong>Bande passante</strong> : Limitation du débit</li>
+    </ul>
+
+    <div class="tip">
+        <strong>Test complet :</strong> Combinez la simulation d'appareil mobile avec le throttling réseau pour reproduire fidèlement l'expérience utilisateur mobile avec une connexion lente.
+    </div>
+
+    <h3>Capture d'écran</h3>
+    <p>Le mode responsive inclut une fonction de capture d'écran (icône caméra) pour documenter le rendu sur différents appareils.</p>
+
+    <hr>
+    
+    <h2>Conseils d'utilisation générale</h2>
+    
+    <h3>Workflow de débogage recommandé</h3>
+    <ol>
+        <li><strong>Console</strong> : Identifier les erreurs et messages</li>
+        <li><strong>Inspector</strong> : Vérifier la structure DOM et les styles</li>
+        <li><strong>Débogueur</strong> : Analyser le code pas-à-pas</li>
+        <li><strong>Network</strong> : Contrôler les appels API</li>
+        <li><strong>Performance</strong> : Optimiser les parties lentes</li>
+    </ol>
+
+    <h3>Raccourcis clavier utiles</h3>
+    <ul>
+        <li><code>F12</code> : Ouvrir/fermer les DevTools</li>
+        <li><code>Ctrl+Maj+C</code> : Sélecteur d'élément</li>
+        <li><code>Ctrl+Maj+K</code> : Console uniquement</li>
+        <li><code>Ctrl+Maj+M</code> : Mode responsive</li>
+        <li><code>F10/F11</code> : Pas-à-pas dans le débogueur</li>
+    </ul>
+
+    <hr>
+    
+    <p style="font-size: 0.9em; color: #555;">
+        <em>Ce guide HTML serve de support pédagogique pour les développeurs JavaScript utilisant Firefox. Firefox est une marque de Mozilla Foundation. Dernière mise à jour : 2024</em>
+    </p>
+</body>
+</html>
